@@ -1,0 +1,63 @@
+cmake_minimum_required(VERSION 3.13)
+project(example-boost LANGUAGES CXX)
+
+# 判断构建类型
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    message(STATUS "Building in Debug mode")
+    # 在 Debug 模式下的特定配置
+    # set(CMAKE_PREFIX_PATH "E:/git/grpc150/INSTALL_Debug") 
+    
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+    message(STATUS "Building in Release mode")
+    # 在 Release 模式下的特定配置
+else()
+    message(STATUS "Building in ${CMAKE_BUILD_TYPE} mode")
+endif()
+
+
+set(CMAKE_PREFIX_PATH "E:/ThirdDevelopInc/boost_1_80_0/lib32-msvc-14.1")
+message(STATUS "GRPC install in ${CMAKE_PREFIX_PATH}")
+message("${CMAKE_SOURCE_DIR}")
+set(ThirdDevelopInc "E:/ThirdDevelopInc")
+
+include_directories(${ThirdDevelopInc})
+
+# Boost_FOUND            - 如果找到了所需的库就设为true
+# Boost_INCLUDE_DIRS     - Boost头文件搜索路径
+# Boost_LIBRARY_DIRS     - Boost库的链接路径
+# Boost_LIBRARIES        - Boost库名，用于链接到目标程序
+# Boost_VERSION          - 从boost/version.hpp文件获取的版本号
+# Boost_LIB_VERSION      - 某个库的版本
+
+
+# BOOST_ROOT             - 首选的Boost安装路径
+# BOOST_INCLUDEDIR       - 首选的头文件搜索路径 e.g. <prefix>/include
+# BOOST_LIBRARYDIR       - 首选的库文件搜索路径 e.g. <prefix>/lib
+# Boost_NO_SYSTEM_PATHS  - 默认是OFF. 如果开启了，则不会搜索用户指定路径之外的路径
+
+
+add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+
+
+set(BOOST_ROOT "E:/ThirdDevelopInc/boost_1_80_0")
+set(Boost_NO_SYSTEM_PATHS ON)  # 只搜索上语句设置的搜索路径
+#set(BOOST_LIBRARYDIR "E:/ThirdDevelopInc/boost_1_80_0/lib32-msvc-14.1") 
+
+
+set(Boost_USE_STATIC_LIBS ON)  # 只使用静态库
+set(Boost_USE_MULTITHREADED ON)
+
+find_package(Boost COMPONENTS program_options REQUIRED) 
+
+if(Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS})
+    
+    MESSAGE( STATUS "Boost_INCLUDE_DIRS = ${Boost_INCLUDE_DIRS}.")
+    MESSAGE( STATUS "Boost_LIBRARIES = ${Boost_LIBRARIES}.")
+    MESSAGE( STATUS "Boost_LIB_VERSION = ${Boost_LIB_VERSION}.")
+endif()
+
+set(CMAKE_CXX_STANDARD 17)
+
+add_subdirectory(test1)

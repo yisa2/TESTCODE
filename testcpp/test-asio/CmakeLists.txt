@@ -1,0 +1,29 @@
+cmake_minimum_required(VERSION 3.13)
+project(example-asio LANGUAGES CXX)
+
+# 判断构建类型
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    message(STATUS "Building in Debug mode")
+    # 在 Debug 模式下的特定配置
+    # set(CMAKE_PREFIX_PATH "E:/git/grpc150/INSTALL_Debug") 
+    
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+    message(STATUS "Building in Release mode")
+    # 在 Release 模式下的特定配置
+else()
+    message(STATUS "Building in ${CMAKE_BUILD_TYPE} mode")
+endif()
+message(STATUS "GRPC install in ${CMAKE_PREFIX_PATH}")
+message("${CMAKE_SOURCE_DIR}")
+set(ThirdDevelopInc "E:/ThirdDevelopInc")
+
+include_directories(${ThirdDevelopInc})
+
+
+add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+
+
+set(CMAKE_CXX_STANDARD 17)
+
+add_subdirectory(sample1)

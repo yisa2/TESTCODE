@@ -1,0 +1,22 @@
+
+include_directories(${ThirdDevelopInc}/asio/include)
+
+#
+# Sources
+#
+set(SOURCES
+   httpclient.cpp
+)
+
+#
+# Target
+#
+# Targets greeter_[async_](client|server)
+foreach(_target
+    # httpclient
+    # test1
+    Timer1
+  )
+  add_executable(${_target} "${_target}.cpp")
+endforeach()
+add_executable(sampl1 ${SOURCES})
