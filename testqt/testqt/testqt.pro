@@ -1,5 +1,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    TetsLog \
-    testXml
+#    TetsLog \
+#    testModbus \
+#    testXml
+    testSqlite
