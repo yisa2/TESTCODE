@@ -1,0 +1,59 @@
+cmake_minimum_required(VERSION 3.10)
+project(MyProject)
+
+# 设置 C++ 标准
+set(CMAKE_CXX_STANDARD 17)
+
+set(ThirdDevelopInc "E:/ThirdDevelopInc")
+
+include_directories(${ThirdDevelopInc})
+include_directories(${ThirdDevelopInc}/asio/include)
+
+
+# 递归获取指定目录及其子目录下的所有 .cpp 文件
+function(get_all_source_files base_dir out_var)
+    file(GLOB_RECURSE tmp_files "${base_dir}/*.cpp")
+    set(${out_var} ${tmp_files} PARENT_SCOPE)
+endfunction()
+
+# 指定包含 .cpp 文件的根目录
+set(SOURCE_ROOT "${CMAKE_SOURCE_DIR}/")
+
+# 获取所有 .cpp 文件
+# 获取所有源文件
+get_all_source_files(${SOURCE_ROOT} SOURCE_FILES)
+
+# 遍历每个 .cpp 文件，为其生成对应的可执行程序
+foreach(SOURCE_FILE ${SOURCE_FILES})
+    # 获取文件名（不含路径和扩展名）
+    # get_filename_component(EXE_NAME ${SOURCE_FILE} NAME_WE)
+    # RELATIVE_PATH ${SOURCE_FILE} DIRECTORY BASE_DIR ${SOURCE_ROOT}
+
+    # string(REPLACE "/" "_" EXE_NAME ${SOURCE_FILE})
+    # string(REPLACE ":" "_" EXE_NAME ${EXE_NAME})
+    # string(REPLACE "\\" "_" EXE_NAME ${EXE_NAME})
+
+    # 获取相对路径
+    file(RELATIVE_PATH RELATIVE_PATH ${SOURCE_ROOT} ${SOURCE_FILE})
+
+    # 基于相对路径生成唯一的目标名称
+    string(REPLACE "/" "_" RELATIVE_PATH ${RELATIVE_PATH})
+    string(REPLACE "\\" "_" RELATIVE_PATH ${RELATIVE_PATH})
+    get_filename_component(BASE_NAME ${SOURCE_FILE} NAME_WE)
+    set(EXE_NAME "${RELATIVE_PATH}_${BASE_NAME}")
+    
+    
+
+    # 打印调试信息
+    message(STATUS "Creating executable: ${EXE_NAME} from ${SOURCE_FILE}")
+
+    # 为每个文件创建一个可执行目标
+    add_executable(${EXE_NAME} "${SOURCE_FILE}")
+
+    # 可选：设置目标的输出路径
+    set_target_properties(${EXE_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+
+endforeach()
+
+# 打印生成的可执行程序名称（可选）
+message(STATUS "Executables created: ${SOURCE_FILES}")

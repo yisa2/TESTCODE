@@ -4,4 +4,12 @@ SUBDIRS += \
 #    TetsLog \
 #    testModbus \
 #    testXml
-    testSqlite
+#    testCreateBtns \
+#    testSqlite \
+    testAsioClient \
+    testAsioServer \
+#    testIPC \
+#    testOpengl \
+#    TestPlug \
+#    testQXlsx \
+#    TestPlugFrm

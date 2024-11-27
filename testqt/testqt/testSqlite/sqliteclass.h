@@ -21,6 +21,11 @@ public:
     void commit();
 
 
+    void testRead();
+    void testUpdate();
+
+    QString m_log;
+
 signals:
 
 

@@ -1,0 +1,63 @@
+cmake_minimum_required(VERSION 3.13)
+
+# 设置Qt路径：
+# Qt5_DIR，使用这个变量，必须把路径设置到Qt5Config.cmake所在文件夹，也就是安装目录下的lib/cmake/Qt5
+# CMAKE_PREFIX_PATH，只需要设置到安装目录就可以了，这个目录就是bin、lib等文件夹所在目录
+
+# set(CMAKE_PREFIX_PATH "D:\software\qt6\6.8.0\msvc2022_64;${CMAKE_PREFIX_PATH}")
+# set(Qt5_DIR "D:\software\qt6\6.8.0\msvc2022_64\lib\cmake\Qt6")
+set(CMAKE_PREFIX_PATH "D:\\software\\qt6\\6.8.0\\msvc2022_64;${CMAKE_PREFIX_PATH}")
+
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
+
+qt_standard_project_setup()
+
+
+add_subdirectory(helloworld)
+
+
+
+# # 设置 Qt DLL 文件的路径
+
+# # 获取 Qt 核心库的位置
+# get_target_property(QtCore_location Qt6::Core IMPORTED_LOCATION)
+# # 获取 Qt 库的 bin 目录
+# get_filename_component(QT_BIN_DIR "${QtCore_location}" DIRECTORY)
+
+# message(STATUS "Qt bin directory: ${QT_BIN_DIR}")
+
+# # 定义函数来根据项目和构建类型设置目标目录并复制 DLL 文件
+# function(copy_qt_dlls_for_target target_name)
+#     # 根据构建类型设置目标目录
+#     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+#             set(QT_DLLS
+#             "${QT_BIN_DIR}/Qt6Cored.dll"
+#             "${QT_BIN_DIR}/Qt6Guid.dll"
+#             "${QT_BIN_DIR}/Qt6Widgetsd.dll")
+#         set(DEST_DIR "${CMAKE_BINARY_DIR}/${target_name}/debug")
+#     elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+#         set(DEST_DIR "${CMAKE_BINARY_DIR}/${target_name}/release")
+#     else()
+#         set(DEST_DIR "${CMAKE_BINARY_DIR}/${target_name}")  # 默认目录
+#     endif()
+
+#     # 添加自定义命令来复制 DLL 文件
+#     add_custom_target(copy_qt_dlls_${target_name} ALL
+#         COMMAND ${CMAKE_COMMAND} -E make_directory ${DEST_DIR}
+#         COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_DLLS} ${DEST_DIR}
+#         COMMENT "Copying Qt DLLs to ${DEST_DIR}"
+#     )
+
+#     # 确保 DLL 文件在构建时自动复制
+#     add_dependencies(${target_name} copy_qt_dlls_${target_name})
+# endfunction()
+
+
+# add_subdirectory(helloworld)
+
+# # 分别为 hello 和 helloworld 项目添加 DLL 复制命令
+# # copy_qt_dlls_for_target(hello)
+# copy_qt_dlls_for_target(helloworld)
+
+# # 打印输出路径，调试用
+# message(STATUS "Qt bin directory: ${QT_BIN_DIR}")

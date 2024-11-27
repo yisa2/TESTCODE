@@ -1,11 +1,26 @@
 
 include_directories(${ThirdDevelopInc}/asio/include)
-
+include_directories(${ThirdDevelopInc}/OpenSSL-Win32/include)
+# set(OPENSSL_ROOT_DIR, ${ThirdDevelopInc}/OpenSSL-Win32/include)
 #
+
+find_package(OpenSSL REQUIRED)
+message(${OPENSSL_CRYPTO_LIBRARY})
+message(${OPENSSL_SSL_LIBRARY})
+# openssl using static library
+set(OPENSSL_USE_STATIC_LIBS TRUE)
+find_library(CRYPT32_LIB Crypt32)
+message(${CRYPT32_LIB})
+link_libraries(${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY} ${CRYPT32_LIB})
+
+
 # Sources
 #
 set(SOURCES
    httpclient.cpp
+   httpsclient.cpp
+   mytimer.cpp
+   httpsclient_async.cpp
 )
 
 #
@@ -14,9 +29,12 @@ set(SOURCES
 # Targets greeter_[async_](client|server)
 foreach(_target
     # httpclient
-    # test1
-    Timer1
+    # test1\
+    # httpsclient
+    # mytimer
+    httpsclient_async
+    # Timer1
   )
   add_executable(${_target} "${_target}.cpp")
 endforeach()
-add_executable(sampl1 ${SOURCES})
+# add_executable(sampl1 ${SOURCES})

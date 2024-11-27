@@ -1,3 +1,5 @@
+
+
 contains(QT_ARCH, i386) {
     CONFIG(debug, debug|release) {
         DESTDIR = ../../build/32/MyDebug # 指定生成的应用程序放置的目录
@@ -14,3 +16,5 @@ contains(QT_ARCH, i386) {
         DESTDIR = ../../build/64/MyRelease # 指定生成的应用程序放置的目录
     }
 }
+
+
